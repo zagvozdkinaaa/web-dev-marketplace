@@ -1,4 +1,4 @@
-# Marketplace Web Project
+# Marketplace Web Application
 
 ## Project Description
 
