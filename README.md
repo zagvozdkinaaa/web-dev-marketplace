@@ -41,11 +41,11 @@ web-dev-marketplace/
 
 ## Group Members
 
-| Name                   | Role          |
-| ---------------------- | ------------- |
-| Anastasia Zagvozdikina | Backend Lead  |
-| Miras Zhumatayev       | Backend Lead  |
-| Nurzhan Abdimanap      | Frontend Lead |
+| Name                     | Role          |
+| ------------------------ | ------------- |
+| Anastassiya Zagvozdikina | Backend Lead  |
+| Miras Zhumatayev         | Backend Lead  |
+| Nurzhan Abdimanap        | Frontend Lead |
 
 ---
 
