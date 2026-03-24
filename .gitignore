@@ -1,0 +1,54 @@
+# =======================
+# Python / Django
+# =======================
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+*.log
+*.pot
+*.py[cod]
+*.db
+*.env
+venv/
+env/
+ENV/
+*.egg-info/
+*.egg
+*.coverage
+htmlcov/
+*.mo
+*.pot
+
+# Django migrations (иногда удобно хранить, иногда нет)
+**/migrations/*.pyc
+**/migrations/*.py~
+**/migrations/__pycache__/
+
+# =======================
+# Node / Angular
+# =======================
+node_modules/
+dist/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+.angular/
+
+# =======================
+# IDE / Editor
+# =======================
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.DS_Store
+
+# =======================
+# Others
+# =======================
+*.log
+.env
