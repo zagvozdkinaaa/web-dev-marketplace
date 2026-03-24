@@ -27,6 +27,7 @@ The project demonstrates:
 
 ## Project Structure
 
+```text
 web-dev-marketplace/
 ├── backend/ # Django REST Framework
 │ ├── marketplace/ # Project settings
@@ -34,6 +35,7 @@ web-dev-marketplace/
 │ └── requirements.txt
 └── frontend/ # Angular Application
 └── marketplace-front/
+```
 
 ---
 
@@ -42,8 +44,8 @@ web-dev-marketplace/
 | Name                   | Role          |
 | ---------------------- | ------------- |
 | Anastasia Zagvozdikina | Backend Lead  |
-| Member 2               | Backend Lead  |
-| Member 3               | Frontend Lead |
+| Miras Zhumatayev       | Backend Lead  |
+| Nurzhan Abdimanap      | Frontend Lead |
 
 ---
 
