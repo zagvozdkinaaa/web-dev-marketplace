@@ -53,8 +53,9 @@ web-dev-marketplace/
 
 1. Navigate to backend folder:
 
-````bash
+```bash
 cd backend
+```
 
 2. Create virtual environment and activate it:
 
@@ -62,21 +63,25 @@ cd backend
 python -m venv venv
 source venv/bin/activate  # Mac/Linux
 # venv\Scripts\activate    # Windows
+```
 
 3. Install dependencies:
 
 ```bash
 pip install -r requirements.txt
+```
 
 4. Apply migrations:
 
 ```bash
 python manage.py migrate
+```
 
 5. Run the backend server:
 
 ```bash
 python manage.py runserver
+```
 
 ### Frontend
 
@@ -84,16 +89,18 @@ python manage.py runserver
 
 ```bash
 cd frontend/marketplace-front
+```
 
 2. Install Angular dependencies:
 
 ```bash
 npm install
+```
 
 3. Run the frontend development server:
 
 ```bash
 ng serve
+```
 
 The Angular app will be available at http://localhost:4200 and will communicate with the Django backend at http://127.0.0.1:8000.
-````
