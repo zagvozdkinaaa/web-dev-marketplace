@@ -2,6 +2,7 @@ from rest_framework import serializers
 from apps.catalog.models import Product, Category
 from apps.orders.models import Order, OrderItem
 from apps.reviews.models import Review
+from django.contrib.auth import authenticate
 
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
@@ -36,3 +37,13 @@ class ReviewSerializer(serializers.Serializer):
     class Meta:
         model = Review
         fields = '__all__'
+
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField()
+    password = serializers.CharField(write_only=True)
+
+    def validate(self, data):
+        user = authenticate(**data)
+        if user and user.is_active:
+            return user
+        raise serializers.ValidationError("Invalid credentials")
