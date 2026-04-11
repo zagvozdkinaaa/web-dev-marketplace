@@ -1,22 +1,24 @@
-<div class="card">
-  <h2>{{ isEdit ? 'Edit Product' : 'Add Product' }}</h2>
-  <div *ngIf="error" class="error">{{ error }}</div>
-  <form>
-    <div>
-      <label>Name:</label>
-      <input [(ngModel)]="name" name="name" type="text" placeholder="Product name" />
-    </div>
-    <div>
-      <label>Price:</label>
-      <input [(ngModel)]="price" name="price" type="number" placeholder="0.00" />
-    </div>
-    <div>
-      <label>Description:</label>
-      <textarea [(ngModel)]="description" name="description" placeholder="Product description"></textarea>
-    </div>
-    <div style="display:flex;gap:10px">
-      <button class="btn-primary" (click)="save()">{{ isEdit ? 'Update' : 'Create' }}</button>
-      <button class="btn-secondary" (click)="cancel()">Cancel</button>
-    </div>
-  </form>
+<div class="page-center">
+  <div class="card">
+    <h2>{{ isEdit ? 'Edit Product' : 'Add Product' }}</h2>
+    <div *ngIf="error" class="error">{{ error }}</div>
+    <form>
+      <div>
+        <label>Name:</label>
+        <input [(ngModel)]="name" name="name" type="text" placeholder="Product name" />
+      </div>
+      <div>
+        <label>Price:</label>
+        <input [(ngModel)]="price" name="price" type="number" placeholder="0.00" />
+      </div>
+      <div>
+        <label>Description:</label>
+        <textarea [(ngModel)]="description" name="description" placeholder="Product description"></textarea>
+      </div>
+      <div style="display:flex;gap:10px">
+        <button class="btn-primary" (click)="save()">{{ isEdit ? 'Update' : 'Create' }}</button>
+        <button class="btn-secondary" (click)="cancel()">Cancel</button>
+      </div>
+    </form>
+  </div>
 </div>

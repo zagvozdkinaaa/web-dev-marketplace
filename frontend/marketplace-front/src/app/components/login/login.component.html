@@ -1,16 +1,18 @@
-<div class="card">
-  <h2>Login</h2>
-  <div *ngIf="error" class="error">{{ error }}</div>
-  <form>
-    <div>
-      <label>Username:</label>
-      <input [(ngModel)]="username" name="username" type="text" placeholder="Enter username" />
-    </div>
-    <div>
-      <label>Password:</label>
-      <input [(ngModel)]="password" name="password" type="password" placeholder="Enter password" />
-    </div>
-    <button class="btn-primary" (click)="login()">Login</button>
-  </form>
-  <p style="margin-top:16px">No account? <a routerLink="/register">Register</a></p>
+<div class="page-center">
+  <div class="card">
+    <h2>Login</h2>
+    <div *ngIf="error" class="error">{{ error }}</div>
+    <form>
+      <div>
+        <label>Username:</label>
+        <input [(ngModel)]="username" name="username" type="text" placeholder="Enter username" />
+      </div>
+      <div>
+        <label>Password:</label>
+        <input [(ngModel)]="password" name="password" type="password" placeholder="Enter password" />
+      </div>
+      <button class="btn-primary" (click)="login()">Login</button>
+    </form>
+    <p>No account? <a routerLink="/register">Register</a></p>
+  </div>
 </div>
