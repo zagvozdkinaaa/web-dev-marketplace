@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ProductService } from '../../services/product.service';
+import { CategoryService } from '../../services/category.service';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-product-list',
@@ -11,12 +13,27 @@ import { ProductService } from '../../services/product.service';
 })
 export class ProductListComponent implements OnInit {
   products: any[] = [];
+  categories: any[] = [];
+  selectedCategory: number | null = null;
   error = '';
+  message = '';
 
-  constructor(private productService: ProductService) {}
+  constructor(
+    private productService: ProductService,
+    private categoryService: CategoryService,
+    private cartService: CartService
+  ) {}
 
   ngOnInit() {
+    this.loadCategories();
     this.loadProducts();
+  }
+
+  loadCategories() {
+    this.categoryService.getAll().subscribe({
+      next: (data) => this.categories = data,
+      error: () => {}
+    });
   }
 
   loadProducts() {
@@ -26,10 +43,28 @@ export class ProductListComponent implements OnInit {
     });
   }
 
+  filterByCategory(categoryId: number | null) {
+    this.selectedCategory = categoryId;
+    if (categoryId === null) {
+      this.loadProducts();
+    } else {
+      this.productService.getAll().subscribe({
+        next: (data) => this.products = data.filter(p => p.category === categoryId),
+        error: () => this.error = 'Failed to filter'
+      });
+    }
+  }
+
+  addToCart(product: any) {
+    this.cartService.addToCart(product);
+    this.message = `${product.name} added to cart!`;
+    setTimeout(() => this.message = '', 2000);
+  }
+
   delete(id: number) {
     this.productService.delete(id).subscribe({
       next: () => this.loadProducts(),
-      error: () => this.error = 'Failed to delete product'
+      error: () => this.error = 'Failed to delete'
     });
   }
 }

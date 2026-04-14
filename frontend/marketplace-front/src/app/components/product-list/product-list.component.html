@@ -1,26 +1,38 @@
 <div class="container">
   <h2>Products</h2>
+
   <div *ngIf="error" class="error">{{ error }}</div>
-  <div style="margin-bottom:16px">
-    <a routerLink="/products/add">
-      <button class="btn-primary">+ Add Product</button>
-    </a>
+  <div *ngIf="message" class="success">{{ message }}</div>
+
+  <div style="margin-bottom:16px; display:flex; gap:10px; flex-wrap:wrap;">
+    <button (click)="filterByCategory(null)"
+      [style.background-color]="selectedCategory === null ? '#2c3e50' : '#95a5a6'"
+      style="color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer">
+      All
+    </button>
+    <button *ngFor="let c of categories"
+      (click)="filterByCategory(c.id)"
+      [style.background-color]="selectedCategory === c.id ? '#2c3e50' : '#95a5a6'"
+      style="color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer">
+      {{ c.name }}
+    </button>
   </div>
+
   <div *ngIf="products.length === 0" style="color:#888">No products yet.</div>
+
   <table *ngIf="products.length > 0">
     <tr>
-      <th>ID</th>
       <th>Name</th>
       <th>Price</th>
       <th>Description</th>
       <th>Actions</th>
     </tr>
     <tr *ngFor="let p of products">
-      <td>{{ p.id }}</td>
       <td>{{ p.name }}</td>
-      <td>{{ p.price }}</td>
+      <td>{{ p.price }} ₸</td>
       <td>{{ p.description }}</td>
-      <td style="display:flex;gap:8px">
+      <td style="display:flex; gap:8px">
+        <button class="btn-primary" (click)="addToCart(p)">Add to Cart</button>
         <a [routerLink]="['/products/edit', p.id]">
           <button class="btn-secondary">Edit</button>
         </a>
