@@ -3,6 +3,11 @@ from apps.catalog.models import Product, Category
 from apps.orders.models import Order, OrderItem
 from apps.reviews.models import Review
 
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = "__all__"
+
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
