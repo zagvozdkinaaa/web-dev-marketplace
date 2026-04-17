@@ -1,8 +1,9 @@
 from rest_framework import generics
+from apps.catalog.models import Product, Category
+from apps.orders.models import Order, OrderItem
+from apps.reviews.models import Review
+from ..serializer import CategorySerializer, ProductOverviewSerializer, ProductSerializer
 
-from apps.catalog.models import Category, Product
-
-from .serializer import CategorySerializer, ProductOverviewSerializer, ProductSerializer
 
 
 class ProductList(generics.ListCreateAPIView):
