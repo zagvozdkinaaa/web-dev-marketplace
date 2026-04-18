@@ -24,17 +24,38 @@ export class CartComponent {
   }
 
   placeOrder() {
-    if (!this.phone_number || !this.delivery_address) {
+    this.error = '';
+    this.success = '';
+
+    if (this.cartService.getItems().length === 0) {
+      this.error = 'Cart is empty';
+      return;
+    }
+
+    const phone = this.phone_number.trim();
+    const address = this.delivery_address.trim();
+
+    if (!phone || !address) {
       this.error = 'Please fill phone number and delivery address';
       return;
     }
-    this.cartService.placeOrder(this.phone_number, this.delivery_address).subscribe({
-      next: () => {
+
+    if (!/^\+\d{9,15}$/.test(phone)) {
+      this.error = 'Phone number must be in format +123456789';
+      return;
+    }
+
+    this.cartService.placeOrder(phone, address).subscribe({
+      next: (order: any) => {
         this.cartService.clearCart();
-        this.success = 'Order placed successfully!';
+        this.success = order?.id
+          ? `Order #${order.id} placed successfully!`
+          : 'Order placed successfully!';
+        this.phone_number = '';
+        this.delivery_address = '';
         setTimeout(() => this.router.navigate(['/products']), 2000);
       },
-      error: () => this.error = 'Failed to place order'
+      error: () => this.error = 'Failed to place order. Check phone format and try again.'
     });
   }
 }

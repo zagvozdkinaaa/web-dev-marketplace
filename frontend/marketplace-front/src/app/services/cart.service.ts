@@ -41,7 +41,7 @@ export class CartService {
     return this.http.post(`${this.baseUrl}/`, {
       phone_number,
       delivery_address,
-      items: orderItems
+      order_items: orderItems
     });
   }
 }

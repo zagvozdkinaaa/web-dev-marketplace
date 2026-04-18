@@ -20,7 +20,7 @@ export class LoginComponent {
   login() {
     this.auth.login({ username: this.username, password: this.password }).subscribe({
       next: (res: any) => {
-        this.auth.saveToken(res.access);
+        this.auth.saveToken(res.token);
         this.router.navigate(['/products']);
       },
       error: () => {

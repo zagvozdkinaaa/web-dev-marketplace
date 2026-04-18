@@ -13,8 +13,14 @@ from ..serializer import CategorySerializer, ProductOverviewSerializer, ProductS
 
 
 class ProductList(generics.ListCreateAPIView):
-    queryset = Product.objects.all()
     serializer_class = ProductSerializer
+
+    def get_queryset(self):
+        queryset = Product.objects.select_related("category").all()
+        category_id = self.request.query_params.get("category")
+        if category_id:
+            queryset = queryset.filter(category_id=category_id)
+        return queryset
 
 
 class ProductOverview(generics.ListAPIView):
@@ -34,6 +40,11 @@ class ReviewListCreateView(APIView):
         return Response(serializer.data)
 
     def post(self, request, product_id):
+        if Review.objects.filter(product_id=product_id, user=request.user).exists():
+            return Response(
+                {"detail": "You have already reviewed this product."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
         serializer = ReviewSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save(user=request.user, product_id=product_id)

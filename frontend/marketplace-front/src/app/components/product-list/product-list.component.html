@@ -32,6 +32,9 @@
       <td>{{ p.price }} ₸</td>
       <td>{{ p.description }}</td>
       <td style="display:flex; gap:8px">
+        <a [routerLink]="['/products', p.id]">
+          <button class="btn-secondary">Reviews</button>
+        </a>
         <button class="btn-primary" (click)="addToCart(p)">Add to Cart</button>
         <a [routerLink]="['/products/edit', p.id]">
           <button class="btn-secondary">Edit</button>

@@ -11,6 +11,10 @@ export class ProductService {
     return this.http.get<any[]>(`${this.baseUrl}/`);
   }
 
+  getByCategory(categoryId: number) {
+    return this.http.get<any[]>(`${this.baseUrl}/?category=${categoryId}`);
+  }
+
   getOne(id: number) {
     return this.http.get<any>(`${this.baseUrl}/${id}/`);
   }

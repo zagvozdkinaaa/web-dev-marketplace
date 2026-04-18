@@ -14,6 +14,7 @@ import { ReviewService } from '../../services/review.service';
 })
 export class ProductDetailComponent implements OnInit {
   product: any;
+  productId: number | null = null;
   reviews: any[] = [];
   rating: number = 5;
   comment: string = '';
@@ -30,37 +31,51 @@ export class ProductDetailComponent implements OnInit {
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
-      this.loadProduct(parseInt(id));
-      this.loadReviews(id);
+      this.productId = parseInt(id, 10);
+      if (!Number.isNaN(this.productId)) {
+        this.loadProduct(this.productId);
+        this.loadReviews(this.productId);
+      } else {
+        this.error = 'Invalid product id';
+      }
     }
   }
 
   loadProduct(id: number) {
     this.productService.getOne(id).subscribe({
       next: (data: any) => this.product = data,
-      error: () => this.error = 'Failed to load product'
+      error: (err) => {
+        this.error = err?.error?.detail || 'Product not found or failed to load';
+      }
     });
   }
 
-  loadReviews(id: string) {
+  loadReviews(id: number) {
     this.reviewService.getReviews(id).subscribe({
       next: (data: any) => this.reviews = data,
       error: () => this.error = 'Failed to load reviews'
     });
   }
 
-  submitReview(id: string) {
+  submitReview(id: number) {
+    this.error = '';
+    this.success = '';
+
     this.reviewService.addReview(id, {
       rating: this.rating,
       comment: this.comment
     }).subscribe({
-      next: () => {
+      next: (createdReview: any) => {
         this.success = 'Review submitted!';
         this.comment = '';
         this.rating = 5;
-        this.loadReviews(id);
+        this.reviews = [createdReview, ...this.reviews];
       },
-      error: () => this.error = 'Failed to submit review'
+      error: (err) => {
+        this.error = err?.error?.non_field_errors?.[0]
+          || err?.error?.detail
+          || 'Failed to submit review';
+      }
     });
   }
 }

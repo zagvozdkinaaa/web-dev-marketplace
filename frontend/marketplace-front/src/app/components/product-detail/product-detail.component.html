@@ -1,34 +1,51 @@
-<div class="container" *ngIf="product">
-  <h2>{{ product.name }}</h2>
-  <p>{{ product.description }}</p>
-  <p>Price: {{ product.price }} ₸</p>
-  
+<div class="container">
   <div *ngIf="error" class="error">{{ error }}</div>
   <div *ngIf="success" class="success">{{ success }}</div>
-  
-  <h3>Reviews</h3>
-  <div *ngFor="let review of reviews">
-    <p>Rating: {{ review.rating }}/5</p>
-    <p>{{ review.comment }}</p>
-    <hr>
-  </div>
-  
-  <div class="review-form">
-    <h4>Add Review</h4>
-    <div>
-      <label>Rating:</label>
-      <select [(ngModel)]="rating">
-        <option value="5">5</option>
-        <option value="4">4</option>
-        <option value="3">3</option>
-        <option value="2">2</option>
-        <option value="1">1</option>
-      </select>
+
+  <ng-container *ngIf="productId; else noProductId">
+    <ng-container *ngIf="product; else noProduct">
+    <h2>{{ product.name }}</h2>
+    <p>{{ product.description }}</p>
+    <p>Price: {{ product.price }} ₸</p>
+    </ng-container>
+
+    <ng-template #noProduct>
+      <p style="color:#888;">Product details are unavailable.</p>
+    </ng-template>
+
+    <h3>Reviews</h3>
+    <div *ngFor="let review of reviews">
+      <p>Rating: {{ review.rating }}/5</p>
+      <p *ngIf="review.username" style="color:#555;">By: {{ review.username }}</p>
+      <p>{{ review.comment }}</p>
+      <hr>
     </div>
-    <div>
-      <label>Comment:</label>
-      <textarea [(ngModel)]="comment"></textarea>
+
+    <div class="review-form">
+      <h4>Add Review</h4>
+      <div>
+        <label>Rating:</label>
+        <select [(ngModel)]="rating">
+          <option value="5">5</option>
+          <option value="4">4</option>
+          <option value="3">3</option>
+          <option value="2">2</option>
+          <option value="1">1</option>
+        </select>
+      </div>
+      <div>
+        <label>Comment:</label>
+        <textarea [(ngModel)]="comment"></textarea>
+      </div>
+      <button
+        (click)="submitReview(productId)"
+        style="margin-top: 12px; background-color: #2c3e50; color: #fff; border: none; border-radius: 6px; padding: 10px 16px; cursor: pointer; font-weight: 600;">
+        Submit Review
+      </button>
     </div>
-    <button (click)="submitReview(product.id)">Submit Review</button>
-  </div>
+  </ng-container>
+
+  <ng-template #noProductId>
+    <p style="color:#888;">Invalid product URL.</p>
+  </ng-template>
 </div>

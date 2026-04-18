@@ -45,11 +45,12 @@ export class ProductListComponent implements OnInit {
 
   filterByCategory(categoryId: number | null) {
     this.selectedCategory = categoryId;
+    this.error = '';
     if (categoryId === null) {
       this.loadProducts();
     } else {
-      this.productService.getAll().subscribe({
-        next: (data) => this.products = data.filter(p => p.category === categoryId),
+      this.productService.getByCategory(categoryId).subscribe({
+        next: (data) => this.products = data,
         error: () => this.error = 'Failed to filter'
       });
     }
