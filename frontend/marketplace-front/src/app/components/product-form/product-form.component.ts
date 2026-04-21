@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ProductService } from '../../services/product.service';
 import { CategoryService } from '../../services/category.service';
+import { Product, Category } from '../../models/models';
 
 @Component({
   selector: 'app-product-form',
@@ -19,7 +20,7 @@ export class ProductFormComponent implements OnInit {
   error = '';
   isEdit = false;
   productId: number | null = null;
-  categories: any[] = [];
+  categories: Category[] = [];
 
   constructor(
     private productService: ProductService,
@@ -34,11 +35,11 @@ export class ProductFormComponent implements OnInit {
     if (this.productId) {
       this.isEdit = true;
       this.productService.getOne(this.productId).subscribe({
-        next: (data) => {
+        next: (data: Product) => {
           this.name = data.name;
           this.price = data.price;
-          this.description = data.description;
-          this.categoryId = data.category ?? null;
+          this.description = data.description || '';
+          this.categoryId = typeof data.category === 'number' ? data.category : (data.category?.id ?? null);
         },
         error: () => this.error = 'Failed to load product'
       });
@@ -59,7 +60,8 @@ export class ProductFormComponent implements OnInit {
       return;
     }
 
-    const data = {
+    const data: Product = {
+      id: this.productId ?? 0,
       name: this.name,
       price: this.price,
       description: this.description,

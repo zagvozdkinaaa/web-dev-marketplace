@@ -1,14 +1,21 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Product, Order, OrderItem } from '../models/models';
+import { Observable } from 'rxjs';
+
+export interface CartItem {
+  product: Product;
+  quantity: number;
+}
 
 @Injectable({ providedIn: 'root' })
 export class CartService {
   private baseUrl = 'http://127.0.0.1:8000/api/orders';
-  private items: any[] = [];
+  private items: CartItem[] = [];
 
   constructor(private http: HttpClient) {}
 
-  addToCart(product: any) {
+  addToCart(product: Product) {
     const existing = this.items.find(i => i.product.id === product.id);
     if (existing) {
       existing.quantity += 1;
@@ -17,7 +24,7 @@ export class CartService {
     }
   }
 
-  getItems() {
+  getItems(): CartItem[] {
     return this.items;
   }
 
@@ -25,20 +32,24 @@ export class CartService {
     this.items = this.items.filter(i => i.product.id !== productId);
   }
 
-  getTotal() {
-    return this.items.reduce((sum, i) => sum + i.product.price * i.quantity, 0);
+  getItemTotal(item: CartItem): number {
+    return parseFloat(item.product.price) * item.quantity;
+  }
+
+  getTotal(): number {
+    return this.items.reduce((sum, i) => sum + this.getItemTotal(i), 0);
   }
 
   clearCart() {
     this.items = [];
   }
 
-  placeOrder(phone_number: string, delivery_address: string) {
-    const orderItems = this.items.map(i => ({
+  placeOrder(phone_number: string, delivery_address: string): Observable<Order> {
+    const orderItems: OrderItem[] = this.items.map(i => ({
       product: i.product.id,
       quantity: i.quantity
     }));
-    return this.http.post(`${this.baseUrl}/`, {
+    return this.http.post<Order>(`${this.baseUrl}/`, {
       phone_number,
       delivery_address,
       order_items: orderItems

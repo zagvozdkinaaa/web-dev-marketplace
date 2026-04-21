@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
+import { AuthResponse } from '../../models/models';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +20,7 @@ export class LoginComponent {
 
   login() {
     this.auth.login({ username: this.username, password: this.password }).subscribe({
-      next: (res: any) => {
+      next: (res: AuthResponse) => {
         this.auth.saveToken(res.token);
         this.auth.saveUsername(this.username);
         this.router.navigate(['/products']);

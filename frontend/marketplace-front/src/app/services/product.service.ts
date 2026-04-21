@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Product } from '../models/models';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ProductService {
@@ -7,27 +9,27 @@ export class ProductService {
 
   constructor(private http: HttpClient) {}
 
-  getAll() {
-    return this.http.get<any[]>(`${this.baseUrl}/`);
+  getAll(): Observable<Product[]> {
+    return this.http.get<Product[]>(`${this.baseUrl}/`);
   }
 
-  getByCategory(categoryId: number) {
-    return this.http.get<any[]>(`${this.baseUrl}/?category=${categoryId}`);
+  getByCategory(categoryId: number): Observable<Product[]> {
+    return this.http.get<Product[]>(`${this.baseUrl}/?category=${categoryId}`);
   }
 
-  getOne(id: number) {
-    return this.http.get<any>(`${this.baseUrl}/${id}/`);
+  getOne(id: number): Observable<Product> {
+    return this.http.get<Product>(`${this.baseUrl}/${id}/`);
   }
 
-  create(data: any) {
-    return this.http.post(`${this.baseUrl}/`, data);
+  create(data: Product): Observable<Product> {
+    return this.http.post<Product>(`${this.baseUrl}/`, data);
   }
 
-  update(id: number, data: any) {
-    return this.http.put(`${this.baseUrl}/${id}/`, data);
+  update(id: number, data: Product): Observable<Product> {
+    return this.http.put<Product>(`${this.baseUrl}/${id}/`, data);
   }
 
-  delete(id: number) {
-    return this.http.delete(`${this.baseUrl}/${id}/`);
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${id}/`);
   }
 }

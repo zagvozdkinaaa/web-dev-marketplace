@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from '../../services/product.service';
 import { ReviewService } from '../../services/review.service';
 import { AuthService } from '../../services/auth.service';
+import { Product, Review } from '../../models/models';
 
 @Component({
   selector: 'app-product-detail',
@@ -14,9 +15,9 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: []
 })
 export class ProductDetailComponent implements OnInit {
-  product: any;
+  product: Product | null = null;
   productId: number | null = null;
-  reviews: any[] = [];
+  reviews: Review[] = [];
   rating: number = 5;
   comment: string = '';
   success: string = '';
@@ -52,7 +53,7 @@ export class ProductDetailComponent implements OnInit {
 
   loadProduct(id: number) {
     this.productService.getOne(id).subscribe({
-      next: (data: any) => this.product = data,
+      next: (data: Product) => this.product = data,
       error: (err) => {
         this.error = err?.error?.detail || 'Product not found or failed to load';
       }
@@ -61,7 +62,7 @@ export class ProductDetailComponent implements OnInit {
 
   loadReviews(id: number) {
     this.reviewService.getReviews(id).subscribe({
-      next: (data: any) => this.reviews = data,
+      next: (data: Review[]) => this.reviews = data,
       error: () => this.error = 'Failed to load reviews'
     });
   }
@@ -70,11 +71,13 @@ export class ProductDetailComponent implements OnInit {
     this.error = '';
     this.success = '';
 
-    this.reviewService.addReview(id, {
+    const newReview: Review = {
       rating: this.rating,
       comment: this.comment
-    }).subscribe({
-      next: (createdReview: any) => {
+    };
+
+    this.reviewService.addReview(id, newReview).subscribe({
+      next: (createdReview: Review) => {
         this.success = 'Review submitted!';
         this.comment = '';
         this.rating = 5;
@@ -88,11 +91,11 @@ export class ProductDetailComponent implements OnInit {
     });
   }
 
-  isMyReview(review: any): boolean {
+  isMyReview(review: Review): boolean {
     return !!this.currentUsername && review?.username === this.currentUsername;
   }
 
-  startEdit(review: any) {
+  startEdit(review: Review) {
     this.error = '';
     this.success = '';
     this.isEditing = true;
@@ -113,11 +116,13 @@ export class ProductDetailComponent implements OnInit {
     this.error = '';
     this.success = '';
 
-    this.reviewService.updateReview(this.productId, this.editingReviewId, {
+    const updatedReview: Partial<Review> = {
       rating: this.editRating,
       comment: this.editComment,
-    }).subscribe({
-      next: (updated: any) => {
+    };
+
+    this.reviewService.updateReview(this.productId, this.editingReviewId, updatedReview).subscribe({
+      next: (updated: Review) => {
         this.success = 'Review updated!';
         this.reviews = this.reviews.map(r => r?.id === updated?.id ? updated : r);
         this.cancelEdit();
@@ -130,7 +135,7 @@ export class ProductDetailComponent implements OnInit {
     });
   }
 
-  deleteReview(review: any) {
+  deleteReview(review: Review) {
     if (!this.productId || !review?.id) return;
     this.error = '';
     this.success = '';

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CartService } from '../../services/cart.service';
 import { Router } from '@angular/router';
+import { Order } from '../../models/models';
 
 @Component({
   selector: 'app-cart',
@@ -46,7 +47,7 @@ export class CartComponent {
     }
 
     this.cartService.placeOrder(phone, address).subscribe({
-      next: (order: any) => {
+      next: (order: Order) => {
         this.cartService.clearCart();
         this.success = order?.id
           ? `Order #${order.id} placed successfully!`

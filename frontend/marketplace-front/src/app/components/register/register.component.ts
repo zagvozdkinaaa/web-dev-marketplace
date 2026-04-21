@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
+import { AuthResponse } from '../../models/models';
 
 @Component({
   selector: 'app-register',
@@ -20,7 +21,7 @@ export class RegisterComponent {
 
   register() {
     this.auth.register({ username: this.username, password: this.password }).subscribe({
-      next: () => {
+      next: (res: AuthResponse) => {
         this.success = 'Registered! Please login.';
         setTimeout(() => this.router.navigate(['/login']), 1500);
       },

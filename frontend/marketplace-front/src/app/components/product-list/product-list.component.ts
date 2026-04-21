@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ProductService } from '../../services/product.service';
 import { CategoryService } from '../../services/category.service';
 import { CartService } from '../../services/cart.service';
+import { Product, Category } from '../../models/models';
 
 @Component({
   selector: 'app-product-list',
@@ -12,8 +13,8 @@ import { CartService } from '../../services/cart.service';
   templateUrl: './product-list.component.html'
 })
 export class ProductListComponent implements OnInit {
-  products: any[] = [];
-  categories: any[] = [];
+  products: Product[] = [];
+  categories: Category[] = [];
   selectedCategory: number | null = null;
   error = '';
   message = '';
@@ -56,7 +57,7 @@ export class ProductListComponent implements OnInit {
     }
   }
 
-  addToCart(product: any) {
+  addToCart(product: Product) {
     this.cartService.addToCart(product);
     this.message = `${product.name} added to cart!`;
     setTimeout(() => this.message = '', 2000);

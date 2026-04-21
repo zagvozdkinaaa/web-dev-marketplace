@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, ActivatedRoute } from '@angular/router';
 import { OrderService } from '../../services/order.service';
+import { Order } from '../../models/models';
 
 @Component({
   selector: 'app-orders',
@@ -10,7 +11,7 @@ import { OrderService } from '../../services/order.service';
   templateUrl: './orders.component.html',
 })
 export class OrdersComponent implements OnInit {
-  orders: any[] = [];
+  orders: Order[] = [];
   error = '';
   justPlacedId: number | null = null;
 
@@ -30,7 +31,7 @@ export class OrdersComponent implements OnInit {
     });
   }
 
-  trackById(_: number, o: any) {
+  trackById(_: number, o: Order) {
     return o?.id;
   }
 }

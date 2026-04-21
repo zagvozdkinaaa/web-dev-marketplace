@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Review } from '../models/models';
 
 @Injectable({
   providedIn: 'root'
@@ -10,20 +11,20 @@ export class ReviewService {
 
   constructor(private http: HttpClient) {}
 
-  getReviews(productId: number): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/products/${productId}/reviews/`);
+  getReviews(productId: number): Observable<Review[]> {
+    return this.http.get<Review[]>(`${this.apiUrl}/products/${productId}/reviews/`);
   }
 
-  addReview(productId: number, review: { rating: number; comment: string }): Observable<any> {
-    return this.http.post(`${this.apiUrl}/products/${productId}/reviews/`, review);
+  addReview(productId: number, review: Review): Observable<Review> {
+    return this.http.post<Review>(`${this.apiUrl}/products/${productId}/reviews/`, review);
   }
 
   updateReview(
     productId: number,
     reviewId: number,
-    review: { rating?: number; comment?: string }
-  ): Observable<any> {
-    return this.http.put(`${this.apiUrl}/products/${productId}/reviews/${reviewId}/`, review);
+    review: Partial<Review>
+  ): Observable<Review> {
+    return this.http.put<Review>(`${this.apiUrl}/products/${productId}/reviews/${reviewId}/`, review);
   }
 
   deleteReview(productId: number, reviewId: number): Observable<void> {
