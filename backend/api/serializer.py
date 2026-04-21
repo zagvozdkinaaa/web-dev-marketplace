@@ -9,11 +9,6 @@ class CategorySerializer(serializers.ModelSerializer):
         model = Category
         fields = "__all__"
 
-class CategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Category
-        fields = "__all__"
-
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
@@ -25,23 +20,12 @@ class ProductOverviewSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'price', 'category']
 
 class LoginSerializer(serializers.Serializer):
-    login = serializers.CharField(max_length=50)
+    name = serializers.CharField(max_length=50)
     password = serializers.CharField(max_length=50)
 
 class RegisterSerializer(serializers.Serializer):
-    username = serializers.CharField(max_length=50)
-    email = serializers.EmailField()
+    name = serializers.CharField(max_length=50)
     password = serializers.CharField(max_length=50)
-
-class OrderSerializer(serializers.Serializer):
-    class Meta:
-        model = Order
-        fields = '__all__'
-
-class OrderItemSerializer(serializers.Serializer):
-    class Meta:
-        model = OrderItem
-        fields = '__all__'
 
 class ReviewSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source='user.username', read_only=True)

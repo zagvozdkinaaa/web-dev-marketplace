@@ -6,25 +6,34 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from rest_framework import status
 
+from ..serializer import CategorySerializer, ProductOverviewSerializer, ProductSerializer, RegisterSerializer, LoginSerializer
+
 #auth using fbv
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def register(request):
-    username = request.data.get('username')
-    password = request.data.get('password')
-    if not username or not password:
-        return Response({'error': 'Username and password required'}, status=status.HTTP_400_BAD_REQUEST)
+    serializer = RegisterSerializer(data=request.data)
+    if not serializer.is_valid():
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-    user = User.objects.create_user(username=username, password=password)
+    user = User.objects.create_user(
+        username=serializer.validated_data['name'],
+        password=serializer.validated_data['password']
+    )
     token, _ = Token.objects.get_or_create(user=user)
     return Response({'token': token.key}, status=status.HTTP_201_CREATED)
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def login(request):
-    username = request.data.get('username')
-    password = request.data.get('password')
+    serializer = LoginSerializer(data=request.data)
+    if not serializer.is_valid():
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    username = serializer.validated_data['name']
+    password = serializer.validated_data['password']
     user = authenticate(username=username, password=password)
+    
     if user:
         token, _ = Token.objects.get_or_create(user=user)
         return Response({'token': token.key})
