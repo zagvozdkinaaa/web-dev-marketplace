@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 export class AuthService {
   // Исправлено: убрал /auth из пути
   private baseUrl = 'http://127.0.0.1:8000/api';
+  private usernameKey = 'username';
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -19,6 +20,7 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem(this.usernameKey);
     this.router.navigate(['/login']);
   }
 
@@ -28,6 +30,14 @@ export class AuthService {
 
   getToken() {
     return localStorage.getItem('token');
+  }
+
+  saveUsername(username: string) {
+    localStorage.setItem(this.usernameKey, username);
+  }
+
+  getUsername() {
+    return localStorage.getItem(this.usernameKey);
   }
 
   isLoggedIn() {

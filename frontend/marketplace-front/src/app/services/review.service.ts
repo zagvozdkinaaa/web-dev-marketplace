@@ -17,4 +17,16 @@ export class ReviewService {
   addReview(productId: number, review: { rating: number; comment: string }): Observable<any> {
     return this.http.post(`${this.apiUrl}/products/${productId}/reviews/`, review);
   }
+
+  updateReview(
+    productId: number,
+    reviewId: number,
+    review: { rating?: number; comment?: string }
+  ): Observable<any> {
+    return this.http.put(`${this.apiUrl}/products/${productId}/reviews/${reviewId}/`, review);
+  }
+
+  deleteReview(productId: number, reviewId: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/products/${productId}/reviews/${reviewId}/`);
+  }
 }

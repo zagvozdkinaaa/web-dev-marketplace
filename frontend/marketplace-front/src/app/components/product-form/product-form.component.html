@@ -8,6 +8,13 @@
         <input [(ngModel)]="name" name="name" type="text" placeholder="Product name" />
       </div>
       <div>
+        <label>Category:</label>
+        <select [(ngModel)]="categoryId" name="categoryId">
+          <option [ngValue]="null" disabled>Select category</option>
+          <option *ngFor="let c of categories" [ngValue]="c.id">{{ c.name }}</option>
+        </select>
+      </div>
+      <div>
         <label>Price:</label>
         <input [(ngModel)]="price" name="price" type="number" placeholder="0.00" />
       </div>
@@ -16,8 +23,8 @@
         <textarea [(ngModel)]="description" name="description" placeholder="Product description"></textarea>
       </div>
       <div style="display:flex;gap:10px">
-        <button class="btn-primary" (click)="save()">{{ isEdit ? 'Update' : 'Create' }}</button>
-        <button class="btn-secondary" (click)="cancel()">Cancel</button>
+        <button type="button" class="btn-primary" (click)="save()">{{ isEdit ? 'Update' : 'Create' }}</button>
+        <button type="button" class="btn-secondary" (click)="cancel()">Cancel</button>
       </div>
     </form>
   </div>

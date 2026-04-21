@@ -4,28 +4,66 @@
 
   <ng-container *ngIf="productId; else noProductId">
     <ng-container *ngIf="product; else noProduct">
-    <h2>{{ product.name }}</h2>
-    <p>{{ product.description }}</p>
-    <p>Price: {{ product.price }} ₸</p>
+      <h2>{{ product.name }}</h2>
+      <p>{{ product.description }}</p>
+      <p>Price: {{ product.price }} ₸</p>
     </ng-container>
 
     <ng-template #noProduct>
-      <p style="color:#888;">Product details are unavailable.</p>
+      <p style="color: #888">Product details are unavailable.</p>
     </ng-template>
 
     <h3>Reviews</h3>
     <div *ngFor="let review of reviews">
       <p>Rating: {{ review.rating }}/5</p>
-      <p *ngIf="review.username" style="color:#555;">By: {{ review.username }}</p>
+      <p *ngIf="review.username" style="color: #555">By: {{ review.username }}</p>
       <p>{{ review.comment }}</p>
-      <hr>
+      <div *ngIf="isMyReview(review)" style="display: flex; gap: 8px; margin: 8px 0 12px">
+        <button
+          (click)="startEdit(review)"
+          style="
+            background-color: #34495e;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-weight: 600;
+          "
+        >
+          Edit
+        </button>
+        <button
+          (click)="deleteReview(review)"
+          style="
+            background-color: #b00020;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-weight: 600;
+          "
+        >
+          Delete
+        </button>
+      </div>
+      <hr />
     </div>
 
-    <div class="review-form">
-      <h4>Add Review</h4>
+    <div class="review-form" *ngIf="currentUsername; else loginToReview">
+      <h4 *ngIf="!isEditing">Add Review</h4>
+      <h4 *ngIf="isEditing">Edit Review</h4>
       <div>
         <label>Rating:</label>
-        <select [(ngModel)]="rating">
+        <select *ngIf="!isEditing" [(ngModel)]="rating">
+          <option value="5">5</option>
+          <option value="4">4</option>
+          <option value="3">3</option>
+          <option value="2">2</option>
+          <option value="1">1</option>
+        </select>
+        <select *ngIf="isEditing" [(ngModel)]="editRating">
           <option value="5">5</option>
           <option value="4">4</option>
           <option value="3">3</option>
@@ -35,17 +73,63 @@
       </div>
       <div>
         <label>Comment:</label>
-        <textarea [(ngModel)]="comment"></textarea>
+        <textarea *ngIf="!isEditing" [(ngModel)]="comment"></textarea>
+        <textarea *ngIf="isEditing" [(ngModel)]="editComment"></textarea>
       </div>
       <button
+        *ngIf="!isEditing"
         (click)="submitReview(productId)"
-        style="margin-top: 12px; background-color: #2c3e50; color: #fff; border: none; border-radius: 6px; padding: 10px 16px; cursor: pointer; font-weight: 600;">
+        style="
+          margin-top: 12px;
+          background-color: #2c3e50;
+          color: #fff;
+          border: none;
+          border-radius: 6px;
+          padding: 10px 16px;
+          cursor: pointer;
+          font-weight: 600;
+        "
+      >
         Submit Review
       </button>
+
+      <div *ngIf="isEditing" style="display: flex; gap: 8px; margin-top: 12px">
+        <button
+          (click)="saveEdit()"
+          style="
+            background-color: #2c3e50;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 10px 16px;
+            cursor: pointer;
+            font-weight: 600;
+          "
+        >
+          Save
+        </button>
+        <button
+          (click)="cancelEdit()"
+          style="
+            background-color: #e0e0e0;
+            color: #111;
+            border: none;
+            border-radius: 6px;
+            padding: 10px 16px;
+            cursor: pointer;
+            font-weight: 600;
+          "
+        >
+          Cancel
+        </button>
+      </div>
     </div>
+    <ng-template #loginToReview>
+      <p style="color: #555; margin-top: 12px">Please login to add, edit or delete reviews.</p>
+    </ng-template>
   </ng-container>
 
   <ng-template #noProductId>
-    <p style="color:#888;">Invalid product URL.</p>
+    <p style="color: #888">Invalid product URL.</p>
   </ng-template>
 </div>

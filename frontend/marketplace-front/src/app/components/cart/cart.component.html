@@ -1,13 +1,11 @@
 <div class="container">
   <h2>Your Cart</h2>
-  
+
   <div *ngIf="error" class="error">{{ error }}</div>
   <div *ngIf="success" class="success">{{ success }}</div>
-  
-  <div *ngIf="cartService.getItems().length === 0" style="color:#888">
-    Your cart is empty
-  </div>
-  
+
+  <div *ngIf="cartService.getItems().length === 0" style="color: #888">Your cart is empty</div>
+
   <div *ngIf="cartService.getItems().length > 0">
     <table class="table">
       <thead>
@@ -33,27 +31,44 @@
       <tfoot>
         <tr>
           <td colspan="3"><strong>Total:</strong></td>
-          <td><strong>{{ cartService.getTotal() }} ₸</strong></td>
+          <td>
+            <strong>{{ cartService.getTotal() }} ₸</strong>
+          </td>
           <td></td>
         </tr>
       </tfoot>
     </table>
-    
+
     <div class="order-form">
       <h3>Order Details</h3>
       <div>
         <label>Phone Number:</label>
-        <input [(ngModel)]="phone_number" name="phone" type="text" placeholder="+12345678901">
+        <input [(ngModel)]="phone_number" name="phone" type="text" placeholder="+12345678901" />
       </div>
       <div>
         <label>Delivery Address:</label>
-        <input [(ngModel)]="delivery_address" name="address" type="text" placeholder="Your address">
+        <input
+          [(ngModel)]="delivery_address"
+          name="address"
+          type="text"
+          placeholder="Your address"
+        />
       </div>
       <button
         (click)="placeOrder()"
-        style="margin-top: 14px; background-color: #2c3e50; color: #fff; border: none; border-radius: 6px; padding: 10px 16px; cursor: pointer; font-weight: 600;"
-        onmouseover="this.style.backgroundColor='#1f2d3a'"
-        onmouseout="this.style.backgroundColor='#2c3e50'">
+        style="
+          margin-top: 14px;
+          background-color: #2c3e50;
+          color: #fff;
+          border: none;
+          border-radius: 6px;
+          padding: 10px 16px;
+          cursor: pointer;
+          font-weight: 600;
+        "
+        onmouseover="this.style.backgroundColor = '#1f2d3a'"
+        onmouseout="this.style.backgroundColor = '#2c3e50'"
+      >
         Place Order
       </button>
     </div>

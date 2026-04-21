@@ -53,7 +53,7 @@ export class CartComponent {
           : 'Order placed successfully!';
         this.phone_number = '';
         this.delivery_address = '';
-        setTimeout(() => this.router.navigate(['/products']), 2000);
+        setTimeout(() => this.router.navigate(['/orders'], { queryParams: { placed: order?.id } }), 800);
       },
       error: () => this.error = 'Failed to place order. Check phone format and try again.'
     });

@@ -11,6 +11,8 @@ import { AuthService } from './services/auth.service';
     <nav>
       <ng-container *ngIf="auth.isLoggedIn()">
         <a routerLink="/products">Products</a>
+        <a routerLink="/products/add">Add product</a>
+        <a routerLink="/orders">My orders</a>
         <a routerLink="/cart">Cart</a>
         <button (click)="auth.logout()">Logout</button>
       </ng-container>
