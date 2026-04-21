@@ -17,7 +17,7 @@ def register(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     user = User.objects.create_user(
-        username=serializer.validated_data['name'],
+        username=serializer.validated_data['username'],
         password=serializer.validated_data['password']
     )
     token, _ = Token.objects.get_or_create(user=user)
@@ -30,7 +30,7 @@ def login(request):
     if not serializer.is_valid():
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-    username = serializer.validated_data['name']
+    username = serializer.validated_data['username']
     password = serializer.validated_data['password']
     user = authenticate(username=username, password=password)
     

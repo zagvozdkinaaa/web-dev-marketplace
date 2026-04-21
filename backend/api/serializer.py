@@ -20,11 +20,11 @@ class ProductOverviewSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'price', 'category']
 
 class LoginSerializer(serializers.Serializer):
-    name = serializers.CharField(max_length=50)
+    username = serializers.CharField(max_length=50)
     password = serializers.CharField(max_length=50)
 
 class RegisterSerializer(serializers.Serializer):
-    name = serializers.CharField(max_length=50)
+    username = serializers.CharField(max_length=50)
     password = serializers.CharField(max_length=50)
 
 class ReviewSerializer(serializers.ModelSerializer):
